@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2F6BFF"/>
+      <stop offset="1" stop-color="#1A2F9E"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#0A1450" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+
+  <!-- Page, slightly tilted, with folded corner -->
+  <g transform="rotate(-6 512 512)" filter="url(#shadow)">
+    <path d="M 282 170 H 650 L 762 282 V 830 Q 762 854 738 854 H 282 Q 258 854 258 830 V 194 Q 258 170 282 170 Z" fill="#FFFFFF"/>
+    <path d="M 650 170 V 258 Q 650 282 674 282 H 762 Z" fill="#D5DEF7"/>
+
+    <!-- Text lines -->
+    <g fill="#DCE3F2">
+      <rect x="322" y="262" width="250" height="26" rx="13"/>
+      <rect x="322" y="330" width="376" height="22" rx="11"/>
+      <rect x="322" y="384" width="376" height="22" rx="11"/>
+      <rect x="322" y="438" width="300" height="22" rx="11"/>
+    </g>
+
+    <!-- Signing line with x -->
+    <rect x="322" y="742" width="376" height="8" rx="4" fill="#B8C3DC"/>
+    <path d="M 330 700 L 356 726 M 356 700 L 330 726" stroke="#9AA8C7" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <!-- Signature (drawn over the page, not tilted, like fresh ink) -->
+  <path d="M 352 690
+           C 372 560, 452 540, 446 618
+           C 440 702, 368 726, 384 662
+           C 400 600, 474 600, 492 668
+           C 504 716, 532 708, 552 652
+           C 566 612, 590 616, 594 656
+           C 598 696, 626 700, 652 650
+           C 672 614, 704 618, 724 652
+           C 732 670, 744 672, 756 664"
+        fill="none" stroke="#1D3FD1" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
