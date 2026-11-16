@@ -4,6 +4,8 @@ import SwiftUI
 struct SignaturesView: View {
     @Environment(SignatureStore.self) private var store
     @State private var showPad = false
+    @State private var showImporter = false
+    @State private var showPhotos = false
     @State private var showSync = false
 
     var body: some View {
@@ -15,9 +17,14 @@ struct SignaturesView: View {
                     ContentUnavailableView {
                         Label("No signatures", systemImage: "signature")
                     } description: {
-                        Text("Draw your signature once and reuse it on any document.")
+                        Text("Draw your signature, or import a photo or scan of it, and reuse it on any document.")
                     } actions: {
-                        Button("Draw Signature") { showPad = true }.buttonStyle(.borderedProminent)
+                        Menu {
+                            AddSignatureMenuItems(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
+                        } label: {
+                            Text("Add Signature")
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
                 } else {
                     ScrollView { SignatureGrid() }
@@ -32,12 +39,14 @@ struct SignaturesView: View {
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
-                    Button { showPad = true } label: { Image(systemName: "plus") }
+                    Menu {
+                        AddSignatureMenuItems(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
-            .sheet(isPresented: $showPad) {
-                SignaturePadView { store.add($0) }
-            }
+            .addSignatureFlows(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
             .sheet(isPresented: $showSync) {
                 SyncSettingsView()
             }
@@ -108,6 +117,8 @@ struct SignaturePicker: View {
     @Environment(SignatureStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     @State private var showPad = false
+    @State private var showImporter = false
+    @State private var showPhotos = false
 
     var body: some View {
         NavigationStack {
@@ -127,12 +138,14 @@ struct SignaturePicker: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .primaryAction) {
-                    Button { showPad = true } label: { Label("New", systemImage: "plus") }
+                    Menu {
+                        AddSignatureMenuItems(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
+                    } label: {
+                        Label("New", systemImage: "plus")
+                    }
                 }
             }
-            .sheet(isPresented: $showPad) {
-                SignaturePadView { store.add($0) }
-            }
+            .addSignatureFlows(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
         }
         .presentationDetents([.medium, .large])
     }

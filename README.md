@@ -5,7 +5,8 @@ server, no subscriptions: everything stays on the device.
 
 - Import PDFs (Files, iCloud Drive, Dropbox… via the file picker or "Open in")
 - Scan paper documents with the camera
-- Draw and save signatures (finger or Apple Pencil, black or blue ink)
+- Draw signatures (finger or Apple Pencil, black or blue ink), or import a photo/scan of one
+  from Photos or Files with automatic paper-background removal
 - Sync signatures between devices through a folder you pick in Files (e.g. iCloud Drive/CS Sign);
   works with a free Apple ID because it needs no iCloud entitlement
 - Place signatures, text, today's date and checkmarks; drag to move, pinch to resize, tap to select
