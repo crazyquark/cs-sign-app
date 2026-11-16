@@ -1,4 +1,3 @@
-import PhotosUI
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -101,81 +100,82 @@ enum SignatureImageProcessor {
 
 // MARK: - Adding signatures (draw or import)
 
+/// What the add-signature flow is showing. A single `.sheet(item:)` presents
+/// all of these, since SwiftUI handles only one presentation per view reliably.
+enum AddSignatureSheet: Identifiable {
+    case draw
+    case files
+    case photos
+    case preview(UIImage)
+
+    var id: String {
+        switch self {
+        case .draw: "draw"
+        case .files: "files"
+        case .photos: "photos"
+        case .preview: "preview"
+        }
+    }
+}
+
 /// Menu items for adding a signature; pair with `.addSignatureFlows`.
 struct AddSignatureMenuItems: View {
-    @Binding var showPad: Bool
-    @Binding var showImporter: Bool
-    @Binding var showPhotos: Bool
+    @Binding var sheet: AddSignatureSheet?
 
     var body: some View {
-        Button { showPad = true } label: { Label("Draw Signature", systemImage: "pencil.and.scribble") }
-        Button { showPhotos = true } label: { Label("Import from Photos", systemImage: "photo") }
-        Button { showImporter = true } label: { Label("Import from Files", systemImage: "folder") }
+        Button { sheet = .draw } label: { Label("Draw Signature", systemImage: "pencil.and.scribble") }
+        Button { sheet = .photos } label: { Label("Import from Photos", systemImage: "photo") }
+        Button { sheet = .files } label: { Label("Import from Files", systemImage: "folder") }
     }
 }
 
 extension View {
-    /// The drawing pad, the Files and Photos pickers, and the import preview.
-    func addSignatureFlows(showPad: Binding<Bool>, showImporter: Binding<Bool>, showPhotos: Binding<Bool>) -> some View {
-        modifier(AddSignatureFlows(showPad: showPad, showImporter: showImporter, showPhotos: showPhotos))
+    /// The drawing pad, the Photos and Files pickers, and the import preview.
+    func addSignatureFlows(sheet: Binding<AddSignatureSheet?>) -> some View {
+        modifier(AddSignatureFlows(sheet: sheet))
     }
 }
 
 private struct AddSignatureFlows: ViewModifier {
-    @Binding var showPad: Bool
-    @Binding var showImporter: Bool
-    @Binding var showPhotos: Bool
+    @Binding var sheet: AddSignatureSheet?
 
     @Environment(SignatureStore.self) private var store
-    @State private var imported: ImportedImage?
-    @State private var photoItem: PhotosPickerItem?
+    /// A picked image (or an error), shown once the picker has finished closing.
+    @State private var pendingImage: UIImage?
+    @State private var pendingError: String?
     @State private var errorMessage: String?
-
-    struct ImportedImage: Identifiable {
-        let id = UUID()
-        let image: UIImage
-    }
 
     func body(content: Content) -> some View {
         content
-            .sheet(isPresented: $showPad) {
-                SignaturePadView { store.add($0) }
-            }
-            .fileImporter(isPresented: $showImporter, allowedContentTypes: [.image]) { result in
-                do {
-                    let url = try result.get()
-                    let scoped = url.startAccessingSecurityScopedResource()
-                    defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-                    guard let image = UIImage(data: try Data(contentsOf: url)) else {
-                        errorMessage = "That file isn't an image CS Sign can read."
-                        return
-                    }
-                    imported = ImportedImage(image: image)
-                } catch {
-                    errorMessage = error.localizedDescription
-                }
-            }
-            .photosPicker(isPresented: $showPhotos, selection: $photoItem, matching: .images)
-            .onChange(of: photoItem) { _, item in
-                guard let item else { return }
-                photoItem = nil
-                Task {
-                    do {
-                        // Loads the full image, downloading it from iCloud Photos if needed.
-                        guard let data = try await item.loadTransferable(type: Data.self),
-                              let image = UIImage(data: data)
-                        else {
-                            errorMessage = "Could not load that photo."
-                            return
+            .sheet(item: $sheet, onDismiss: afterPickerClosed) { which in
+                switch which {
+                case .draw:
+                    SignaturePadView { store.add($0) }
+                case .files:
+                    DocumentPicker(types: [.image], asCopy: true) { urls in
+                        if let url = urls.first {
+                            if let image = (try? Data(contentsOf: url)).flatMap(UIImage.init(data:)) {
+                                pendingImage = image
+                            } else {
+                                pendingError = "That file isn't an image CS Sign can read."
+                            }
                         }
-                        imported = ImportedImage(image: image)
-                    } catch {
-                        errorMessage = error.localizedDescription
+                        sheet = nil
                     }
+                    .ignoresSafeArea()
+                case .photos:
+                    PhotoPicker { result in
+                        switch result {
+                        case .picked(let image): pendingImage = image
+                        case .failed: pendingError = "Could not load that photo."
+                        case .cancelled: break
+                        }
+                        sheet = nil
+                    }
+                    .ignoresSafeArea()
+                case .preview(let image):
+                    ImportSignatureView(source: image) { store.add($0) }
                 }
-            }
-            .sheet(item: $imported) { item in
-                ImportSignatureView(source: item.image) { store.add($0) }
             }
             .alert("Import", isPresented: Binding(
                 get: { errorMessage != nil },
@@ -185,6 +185,17 @@ private struct AddSignatureFlows: ViewModifier {
             } message: {
                 Text(errorMessage ?? "")
             }
+    }
+
+    /// Runs when any of the sheets has fully closed; chains into the preview.
+    private func afterPickerClosed() {
+        if let image = pendingImage {
+            pendingImage = nil
+            sheet = .preview(image)
+        } else if let error = pendingError {
+            pendingError = nil
+            errorMessage = error
+        }
     }
 }
 

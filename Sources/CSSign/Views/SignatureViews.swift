@@ -3,9 +3,7 @@ import SwiftUI
 /// The Signatures tab: manage saved signatures and the sync folder.
 struct SignaturesView: View {
     @Environment(SignatureStore.self) private var store
-    @State private var showPad = false
-    @State private var showImporter = false
-    @State private var showPhotos = false
+    @State private var addSheet: AddSignatureSheet?
     @State private var showSync = false
 
     var body: some View {
@@ -20,7 +18,7 @@ struct SignaturesView: View {
                         Text("Draw your signature, or import a photo or scan of it, and reuse it on any document.")
                     } actions: {
                         Menu {
-                            AddSignatureMenuItems(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
+                            AddSignatureMenuItems(sheet: $addSheet)
                         } label: {
                             Text("Add Signature")
                         }
@@ -31,6 +29,7 @@ struct SignaturesView: View {
                         .refreshable { store.reload() }
                 }
             }
+            .addSignatureFlows(sheet: $addSheet)
             .navigationTitle("Signatures")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -40,24 +39,23 @@ struct SignaturesView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
-                        AddSignatureMenuItems(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
+                        AddSignatureMenuItems(sheet: $addSheet)
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .addSignatureFlows(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
-            .sheet(isPresented: $showSync) {
-                SyncSettingsView()
-            }
-            .alert("Sync", isPresented: Binding(
-                get: { store.lastError != nil },
-                set: { if !$0 { store.lastError = nil } }
-            )) {
-                Button("OK") {}
-            } message: {
-                Text(store.lastError ?? "")
-            }
+        }
+        .sheet(isPresented: $showSync) {
+            SyncSettingsView()
+        }
+        .alert("Sync", isPresented: Binding(
+            get: { store.lastError != nil },
+            set: { if !$0 { store.lastError = nil } }
+        )) {
+            Button("OK") {}
+        } message: {
+            Text(store.lastError ?? "")
         }
     }
 }
@@ -99,11 +97,12 @@ struct SyncSettingsView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
             }
-            .fileImporter(isPresented: $showPicker, allowedContentTypes: [.folder]) { result in
-                switch result {
-                case .success(let url): store.linkFolder(url)
-                case .failure(let error): store.lastError = error.localizedDescription
+            .sheet(isPresented: $showPicker) {
+                DocumentPicker(types: [.folder]) { urls in
+                    showPicker = false
+                    if let url = urls.first { store.linkFolder(url) }
                 }
+                .ignoresSafeArea()
             }
         }
         .presentationDetents([.medium, .large])
@@ -116,9 +115,7 @@ struct SignaturePicker: View {
 
     @Environment(SignatureStore.self) private var store
     @Environment(\.dismiss) private var dismiss
-    @State private var showPad = false
-    @State private var showImporter = false
-    @State private var showPhotos = false
+    @State private var addSheet: AddSignatureSheet?
 
     var body: some View {
         NavigationStack {
@@ -139,13 +136,13 @@ struct SignaturePicker: View {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
-                        AddSignatureMenuItems(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
+                        AddSignatureMenuItems(sheet: $addSheet)
                     } label: {
                         Label("New", systemImage: "plus")
                     }
                 }
             }
-            .addSignatureFlows(showPad: $showPad, showImporter: $showImporter, showPhotos: $showPhotos)
+            .addSignatureFlows(sheet: $addSheet)
         }
         .presentationDetents([.medium, .large])
     }

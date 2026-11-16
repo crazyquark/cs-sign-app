@@ -35,6 +35,19 @@ struct LibraryView: View {
                     }
                 }
             }
+            // The PDF picker sits on the content and the scanner on the
+            // NavigationStack, so no view has two presentations.
+            .sheet(isPresented: $showImporter) {
+                DocumentPicker(types: [.pdf], asCopy: true, allowsMultiple: true) { urls in
+                    showImporter = false
+                    do {
+                        for url in urls { try store.importFile(url) }
+                    } catch {
+                        errorMessage = error.localizedDescription
+                    }
+                }
+                .ignoresSafeArea()
+            }
             .navigationTitle("Documents")
             .navigationDestination(for: URL.self) { EditorView(url: $0) }
             .toolbar {
@@ -53,21 +66,6 @@ struct LibraryView: View {
                     }
                 }
             }
-            .fileImporter(isPresented: $showImporter, allowedContentTypes: [.pdf], allowsMultipleSelection: true) { result in
-                do {
-                    for url in try result.get() { try store.importFile(url) }
-                } catch {
-                    errorMessage = error.localizedDescription
-                }
-            }
-            .fullScreenCover(isPresented: $showScanner) {
-                DocumentScanner { images in
-                    showScanner = false
-                    guard !images.isEmpty else { return }
-                    do { path = [try store.saveScan(images)] } catch { errorMessage = error.localizedDescription }
-                }
-                .ignoresSafeArea()
-            }
             .onOpenURL { url in
                 do { path = [try store.importFile(url)] } catch { errorMessage = error.localizedDescription }
             }
@@ -80,6 +78,14 @@ struct LibraryView: View {
             } message: {
                 Text(errorMessage ?? "")
             }
+        }
+        .fullScreenCover(isPresented: $showScanner) {
+            DocumentScanner { images in
+                showScanner = false
+                guard !images.isEmpty else { return }
+                do { path = [try store.saveScan(images)] } catch { errorMessage = error.localizedDescription }
+            }
+            .ignoresSafeArea()
         }
     }
 }
