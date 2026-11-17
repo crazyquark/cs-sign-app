@@ -14,6 +14,23 @@ server, no subscriptions: everything stays on the device.
 
 Built with SwiftUI, PDFKit, PencilKit and VisionKit only. iOS 17+.
 
+## Install (SideStore / AltStore)
+
+CS Sign isn't on the App Store. Install it with [SideStore](https://sidestore.io) or
+[AltStore](https://altstore.io) using your own free Apple ID:
+
+1. In SideStore/AltStore, go to **Sources** and add this source URL:
+   ```
+   https://raw.githubusercontent.com/crazyquark/cs-sign-app/main/source.json
+   ```
+2. Open **CS Sign** from the source and tap **Install**. Updates appear there too.
+
+Or download `CSSign.ipa` from the [latest release](https://github.com/crazyquark/cs-sign-app/releases/latest)
+and sideload it with any tool you like.
+
+Free Apple IDs allow 3 sideloaded apps at a time, and apps must be refreshed every 7 days
+(SideStore does this automatically).
+
 ## Building on Linux with xtool
 
 [xtool](https://github.com/xtool-org/xtool) builds SwiftPM iOS apps without Xcode.
@@ -48,3 +65,12 @@ Alternatively, `xtool setup` + `xtool dev` builds, signs and installs over USB i
 ## Building on a Mac
 
 Open `Package.swift` in Xcode, or use xtool on macOS the same way as above.
+
+## Releasing
+
+```bash
+scripts/release.sh 1.0.1 "What's new in this version."
+```
+
+Builds the .ipa, bumps the version in `Info.plist`, creates the GitHub release and adds it
+to `source.json`, which SideStore/AltStore users are subscribed to.

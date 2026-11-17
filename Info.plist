@@ -4,14 +4,6 @@
 <dict>
 	<key>CFBundleDisplayName</key>
 	<string>CS Sign</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Scan paper documents to sign them.</string>
-	<!-- Show the app's documents in Files > On My iPhone -->
-	<key>UIFileSharingEnabled</key>
-	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<!-- Appear in the share sheet / "Open in" for PDFs -->
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -25,5 +17,15 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>0</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Scan paper documents to sign them.</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>

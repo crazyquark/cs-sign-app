@@ -1,0 +1,30 @@
+{
+  "name": "CS Sign",
+  "identifier": "io.github.crazyquark.cssign.source",
+  "subtitle": "Sign PDFs with your handwritten signature.",
+  "description": "CS Sign: a simple, private PDF signing app. No accounts, no subscriptions; everything stays on your device.",
+  "iconURL": "https://raw.githubusercontent.com/crazyquark/cs-sign-app/main/Resources/AppIcon.png",
+  "website": "https://github.com/crazyquark/cs-sign-app",
+  "tintColor": "#2F6BFF",
+  "apps": [
+    {
+      "name": "CS Sign",
+      "bundleIdentifier": "io.github.crazyquark.cssign",
+      "developerName": "crazyquark",
+      "subtitle": "Sign PDFs with your handwritten signature.",
+      "localizedDescription": "Sign PDF documents with a hand-drawn signature, right on your iPhone or iPad.\n\n• Import PDFs from Files, iCloud Drive or any app's share sheet, or scan paper documents with the camera\n• Draw your signature with a finger or Apple Pencil, or import a photo or scan of it (the paper background is removed automatically)\n• Place signatures, text, dates and checkmarks; drag to move, pinch to resize\n• Save a signed copy with everything merged into the page, and share it\n• Sync signatures between your devices through an iCloud Drive folder\n\nNo accounts, no subscriptions, no tracking. Your documents never leave your device.",
+      "iconURL": "https://raw.githubusercontent.com/crazyquark/cs-sign-app/main/Resources/AppIcon.png",
+      "tintColor": "#2F6BFF",
+      "category": "utilities",
+      "screenshots": [],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSCameraUsageDescription": "Scan paper documents to sign them."
+        }
+      },
+      "versions": []
+    }
+  ],
+  "news": []
+}
