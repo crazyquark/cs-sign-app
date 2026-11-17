@@ -74,3 +74,7 @@ scripts/release.sh 1.0.1 "What's new in this version."
 
 Builds the .ipa, bumps the version in `Info.plist`, creates the GitHub release and adds it
 to `source.json`, which SideStore/AltStore users are subscribed to.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
