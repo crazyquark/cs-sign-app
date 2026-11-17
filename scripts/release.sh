@@ -6,8 +6,12 @@
 #   e.g. scripts/release.sh 1.0.1 "Fixes signature import."
 set -euo pipefail
 
-version="${1:?usage: scripts/release.sh <version> \"<what's new>\"}"
-notes="${2:?usage: scripts/release.sh <version> \"<what's new>\"}"
+if [[ $# -ne 2 ]]; then
+    echo "usage: scripts/release.sh <version> \"<release notes>\"" >&2
+    exit 1
+fi
+version="$1"
+notes="$2"
 repo="crazyquark/cs-sign-app"
 tag="v$version"
 
