@@ -83,7 +83,8 @@ Open `Package.swift` in Xcode, or use xtool on macOS the same way as above.
 One-time setup:
 
 1. App Store Connect → Users and Access → Integrations → **Team Keys**: create a key with
-   the **App Manager** role. Download the `.p8` file (only possible once) and note the
+   the **Admin** role (App Manager is not enough: uploading uses cloud-managed
+   distribution signing, which needs Admin). Download the `.p8` file (only possible once) and note the
    key ID and issuer ID.
 2. App Store Connect → Apps → **+ New App**, bundle ID `io.github.crazyquark.plainsign`.
 3. GitHub → Settings → Secrets and variables → Actions → add `ASC_KEY_ID`,
