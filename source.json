@@ -23,7 +23,17 @@
           "NSCameraUsageDescription": "Scan paper documents to sign them."
         }
       },
-      "versions": []
+      "versions": [
+        {
+          "version": "1.1.0",
+          "buildVersion": "2",
+          "date": "2026-11-18T15:10:56Z",
+          "localizedDescription": "CS Sign is now Plain Sign. This is a new app on your device (new bundle ID): if you used CS Sign, link your signature sync folder in it first, then delete it and install Plain Sign.",
+          "downloadURL": "https://github.com/crazyquark/cs-sign-app/releases/download/v1.1.0/PlainSign.ipa",
+          "size": 1138169,
+          "minOSVersion": "17.0"
+        }
+      ]
     }
   ],
   "news": []
