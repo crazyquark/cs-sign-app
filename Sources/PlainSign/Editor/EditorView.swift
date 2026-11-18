@@ -17,6 +17,8 @@ struct EditorView: View {
             .ignoresSafeArea(edges: .bottom)
             .navigationTitle(url.deletingPathExtension().lastPathComponent)
             .navigationBarTitleDisplayMode(.inline)
+            // The editor has its own bottom toolbar; on iPhone the tab bar would cover it.
+            .toolbar(.hidden, for: .tabBar)
             .onAppear {
                 if editor.pdfView.document == nil {
                     editor.load(url)

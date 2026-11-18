@@ -25,12 +25,15 @@ if [[ -z "$runtime" ]]; then
 fi
 echo "Runtime: $runtime"
 
-# Newest device type whose name matches a regex.
+# Newest device type whose name matches a regex: the one with the highest model
+# number in its name (the simulator's list isn't in release order).
 device_type() {
     xcrun simctl list devicetypes -j | python3 -I -c '
 import json, re, sys
 types = [t for t in json.load(sys.stdin)["devicetypes"] if re.search(sys.argv[1], t["name"])]
-print(types[-1]["identifier"] if types else "")' "$1"
+def model(t):
+    return [int(n) for n in re.findall(r"\d+", t["name"])]
+print(max(types, key=model)["identifier"] if types else "")' "$1"
 }
 
 # App Store Connect needs iPhone 6.9" and, since the app runs on iPad, iPad 13".
