@@ -25,6 +25,15 @@
       },
       "versions": [
         {
+          "version": "1.1.1",
+          "buildVersion": "3",
+          "date": "2026-11-18T20:57:37Z",
+          "localizedDescription": "Fixes the editor toolbar (Text, Date, Checkmark) being hidden behind the tab bar on iPhone.",
+          "downloadURL": "https://github.com/crazyquark/plain-sign/releases/download/v1.1.1/PlainSign.ipa",
+          "size": 1167645,
+          "minOSVersion": "17.0"
+        },
+        {
           "version": "1.1.0",
           "buildVersion": "2",
           "date": "2026-11-18T15:10:56Z",
