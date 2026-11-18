@@ -3,7 +3,7 @@ import Observation
 import UIKit
 
 /// PDFs live directly in the app's Documents folder, so they also show up in
-/// Files > On My iPhone > Plain Sign.
+/// Files > On My iPhone > Quill Sign.
 @Observable
 final class DocumentStore {
     private(set) var documents: [URL] = []

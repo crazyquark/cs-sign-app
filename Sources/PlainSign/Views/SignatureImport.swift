@@ -157,7 +157,7 @@ private struct AddSignatureFlows: ViewModifier {
                             if let image = (try? Data(contentsOf: url)).flatMap(UIImage.init(data:)) {
                                 pendingImage = image
                             } else {
-                                pendingError = "That file isn't an image Plain Sign can read."
+                                pendingError = "That file isn't an image Quill Sign can read."
                             }
                         }
                         sheet = nil
