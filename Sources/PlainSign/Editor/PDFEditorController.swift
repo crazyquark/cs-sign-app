@@ -38,28 +38,36 @@ final class PDFEditorController: NSObject, ObservableObject, UIGestureRecognizer
 
     // MARK: Adding
 
-    func addImage(_ image: UIImage) {
+    /// `center` is in page coordinates; nil places the stamp in the middle of the visible area.
+    func addImage(_ image: UIImage, centeredAt center: CGPoint? = nil) {
         let width: CGFloat = 160
         let height = width * image.size.height / max(image.size.width, 1)
-        insert(StampAnnotation(content: .image(image), bounds: CGRect(x: 0, y: 0, width: width, height: height)))
+        insert(StampAnnotation(content: .image(image), bounds: CGRect(x: 0, y: 0, width: width, height: height)), centeredAt: center)
     }
 
-    func addText(_ text: String, fontSize: CGFloat = 14) {
+    func addText(_ text: String, fontSize: CGFloat = 14, centeredAt center: CGPoint? = nil) {
         let font = UIFont.systemFont(ofSize: fontSize)
         let width = ceil((text as NSString).size(withAttributes: [.font: font]).width) + 2
         let height = fontSize * StampAnnotation.lineHeightRatio
-        insert(StampAnnotation(content: .text(text), bounds: CGRect(x: 0, y: 0, width: width, height: height)))
+        insert(StampAnnotation(content: .text(text), bounds: CGRect(x: 0, y: 0, width: width, height: height)), centeredAt: center)
     }
 
-    /// Drops the stamp in the middle of the visible part of the current page.
-    private func insert(_ stamp: StampAnnotation) {
+    /// Drops the stamp at `center` (page coordinates) or, by default, in the
+    /// middle of the visible part of the current page.
+    private func insert(_ stamp: StampAnnotation, centeredAt center: CGPoint? = nil) {
         guard let page = pdfView.currentPage else { return }
-        let pageBox = page.bounds(for: pdfView.displayBox)
-        var visible = pdfView.convert(pdfView.bounds, to: page).intersection(pageBox)
-        if visible.isNull || visible.isEmpty { visible = pageBox }
+        let target: CGPoint
+        if let center {
+            target = center
+        } else {
+            let pageBox = page.bounds(for: pdfView.displayBox)
+            var visible = pdfView.convert(pdfView.bounds, to: page).intersection(pageBox)
+            if visible.isNull || visible.isEmpty { visible = pageBox }
+            target = CGPoint(x: visible.midX, y: visible.midY)
+        }
         stamp.bounds.origin = CGPoint(
-            x: visible.midX - stamp.bounds.width / 2,
-            y: visible.midY - stamp.bounds.height / 2
+            x: target.x - stamp.bounds.width / 2,
+            y: target.y - stamp.bounds.height / 2
         )
         page.addAnnotation(stamp)
         select(stamp)
@@ -77,6 +85,8 @@ final class PDFEditorController: NSObject, ObservableObject, UIGestureRecognizer
     }
 
     func markSaved() { hasChanges = false }
+
+    func clearSelection() { select(nil) }
 
     private func select(_ stamp: StampAnnotation?) {
         if let old = selected {

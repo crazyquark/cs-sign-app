@@ -18,7 +18,20 @@ struct EditorView: View {
             .navigationTitle(url.deletingPathExtension().lastPathComponent)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
-                if editor.pdfView.document == nil { editor.load(url) }
+                if editor.pdfView.document == nil {
+                    editor.load(url)
+                    if ScreenshotMode.screen == .editor {
+                        // A signed document for the App Store screenshot.
+                        let ink = UIColor(red: 0.05, green: 0.2, blue: 0.6, alpha: 1)
+                        editor.addImage(ScreenshotMode.signatureImage(ink: ink), centeredAt: ScreenshotMode.signatureCenter)
+                        editor.addText(
+                            Date.now.formatted(date: .long, time: .omitted),
+                            fontSize: 13,
+                            centeredAt: ScreenshotMode.dateCenter
+                        )
+                        editor.clearSelection()
+                    }
+                }
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {

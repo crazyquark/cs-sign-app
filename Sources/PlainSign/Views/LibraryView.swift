@@ -4,7 +4,7 @@ import VisionKit
 
 struct LibraryView: View {
     @Environment(DocumentStore.self) private var store
-    @State private var path: [URL] = []
+    @State private var path: [URL] = ScreenshotMode.screen == .editor ? [ScreenshotMode.documentURL] : []
     @State private var showImporter = false
     @State private var showScanner = false
     @State private var errorMessage: String?

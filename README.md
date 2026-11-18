@@ -66,6 +66,31 @@ Alternatively, `xtool setup` + `xtool dev` builds, signs and installs over USB i
 
 Open `Package.swift` in Xcode, or use xtool on macOS the same way as above.
 
+## App Store / TestFlight (GitHub Actions)
+
+`.github/workflows/app-store.yml` builds the app with Xcode on a GitHub macOS runner
+(free for public repos). The Xcode project is generated from `project.yml` by
+`scripts/xcode-prepare.sh`; it uses the same sources and `Info.plist` as xtool.
+
+- **TestFlight:** runs on every `v*` tag (so `scripts/release.sh` triggers it) or by hand
+  from the Actions tab. It archives the app, signs it with Xcode cloud signing and uploads
+  it to App Store Connect. Build numbers get the run number appended (`3` → `3.57`).
+- **Screenshots:** run the workflow by hand with *Take App Store screenshots* checked.
+  It captures iPhone 6.9" and iPad 13" screenshots (the sizes App Store Connect requires)
+  using the app's demo mode (`-PSScreenshot library|editor|signatures`) and attaches them
+  as the `app-store-screenshots` artifact.
+
+One-time setup:
+
+1. App Store Connect → Users and Access → Integrations → **Team Keys**: create a key with
+   the **App Manager** role. Download the `.p8` file (only possible once) and note the
+   key ID and issuer ID.
+2. App Store Connect → Apps → **+ New App**, bundle ID `io.github.crazyquark.plainsign`.
+3. GitHub → Settings → Secrets and variables → Actions → add `ASC_KEY_ID`,
+   `ASC_ISSUER_ID`, `ASC_KEY_P8` (the file's contents) and `APPLE_TEAM_ID`.
+
+Until the secrets exist, the TestFlight job only checks that the app builds.
+
 ## Releasing
 
 ```bash
