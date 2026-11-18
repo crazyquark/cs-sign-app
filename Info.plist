@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Quill Sign</string>
+	<string>Signwright</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>

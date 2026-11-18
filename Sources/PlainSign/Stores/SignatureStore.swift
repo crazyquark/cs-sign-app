@@ -5,7 +5,7 @@ import UIKit
 /// Saved signatures as transparent PNGs.
 ///
 /// By default they live in Application Support (this device only). The user can
-/// link a folder picked through the Files app (e.g. iCloud Drive/Quill Sign); the
+/// link a folder picked through the Files app (e.g. iCloud Drive/Signwright); the
 /// signatures are then read from and written to that folder, so every device
 /// that links the same folder shares them. This needs no iCloud entitlement,
 /// which sideloaded apps signed with a free Apple ID can't have.
@@ -88,7 +88,7 @@ final class SignatureStore {
     /// into it, so nothing is lost and devices merge their signatures.
     func linkFolder(_ picked: URL) {
         guard picked.startAccessingSecurityScopedResource() else {
-            lastError = "Quill Sign wasn't given access to that folder."
+            lastError = "Signwright wasn't given access to that folder."
             return
         }
         do {

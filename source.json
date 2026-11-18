@@ -1,14 +1,14 @@
 {
-  "name": "Quill Sign",
+  "name": "Signwright",
   "identifier": "io.github.crazyquark.plainsign.source",
   "subtitle": "Sign PDFs with your handwritten signature.",
-  "description": "Quill Sign: a simple, private PDF signing app. No accounts, no subscriptions; everything stays on your device.",
+  "description": "Signwright: a simple, private PDF signing app. No accounts, no subscriptions; everything stays on your device.",
   "iconURL": "https://raw.githubusercontent.com/crazyquark/plain-sign/main/Resources/AppIcon.png",
   "website": "https://github.com/crazyquark/plain-sign",
   "tintColor": "#2F6BFF",
   "apps": [
     {
-      "name": "Quill Sign",
+      "name": "Signwright",
       "bundleIdentifier": "io.github.crazyquark.plainsign",
       "developerName": "crazyquark",
       "subtitle": "Sign PDFs with your handwritten signature.",

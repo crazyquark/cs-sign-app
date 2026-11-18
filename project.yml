@@ -1,4 +1,4 @@
-# XcodeGen spec for building Quill Sign with Xcode (App Store uploads and
+# XcodeGen spec for building Signwright with Xcode (App Store uploads and
 # screenshots in CI). Day-to-day builds use xtool (Package.swift + xtool.yml);
 # both build the same sources. Run scripts/xcode-prepare.sh, not xcodegen directly:
 # it creates the .xcode/ inputs this spec refers to.

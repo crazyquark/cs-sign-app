@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build Quill Sign, publish it as a GitHub release, and add it to the
+# Build Signwright, publish it as a GitHub release, and add it to the
 # SideStore/AltStore source (source.json).
 #
 # Usage: scripts/release.sh <version> "<what's new>"
@@ -38,7 +38,7 @@ git commit -q -m "Release $version"
 git tag "$tag"
 git push -q origin HEAD "$tag"
 
-gh release create "$tag" "$ipa" --repo "$repo" --title "Quill Sign $version" --notes "$notes"
+gh release create "$tag" "$ipa" --repo "$repo" --title "Signwright $version" --notes "$notes"
 
 # Point the source at the new release and publish it.
 python3 -I scripts/source.py add-version source.json "$version" "$build" "$notes" \
