@@ -21,11 +21,11 @@ Plain Sign isn't on the App Store. Install it with [SideStore](https://sidestore
 
 1. In SideStore/AltStore, go to **Sources** and add this source URL:
    ```
-   https://raw.githubusercontent.com/crazyquark/cs-sign-app/main/source.json
+   https://raw.githubusercontent.com/crazyquark/plain-sign/main/source.json
    ```
 2. Open **Plain Sign** from the source and tap **Install**. Updates appear there too.
 
-Or download `PlainSign.ipa` from the [latest release](https://github.com/crazyquark/cs-sign-app/releases/latest)
+Or download `PlainSign.ipa` from the [latest release](https://github.com/crazyquark/plain-sign/releases/latest)
 and sideload it with any tool you like.
 
 Free Apple IDs allow 3 sideloaded apps at a time, and apps must be refreshed every 7 days

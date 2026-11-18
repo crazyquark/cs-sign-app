@@ -12,7 +12,7 @@ if [[ $# -ne 2 ]]; then
 fi
 version="$1"
 notes="$2"
-repo="crazyquark/cs-sign-app"
+repo="crazyquark/plain-sign"
 tag="v$version"
 
 cd "$(dirname "$0")/.."
