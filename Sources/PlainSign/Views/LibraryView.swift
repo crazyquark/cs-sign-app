@@ -16,7 +16,7 @@ struct LibraryView: View {
                     ContentUnavailableView(
                         "No documents",
                         systemImage: "doc.badge.plus",
-                        description: Text("Import a PDF, scan a paper document, or share a PDF to CS Sign from another app.")
+                        description: Text("Import a PDF, scan a paper document, or share a PDF to Plain Sign from another app.")
                     )
                 } else {
                     List {

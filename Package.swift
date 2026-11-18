@@ -3,18 +3,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "CSSign",
+    name: "PlainSign",
     platforms: [
         .iOS(.v17),
         .macOS(.v14),
     ],
     products: [
         // xtool expects exactly one library product: the app itself.
-        .library(name: "CSSign", targets: ["CSSign"]),
+        .library(name: "PlainSign", targets: ["PlainSign"]),
     ],
     targets: [
         .target(
-            name: "CSSign",
+            name: "PlainSign",
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),
     ]

@@ -1,15 +1,15 @@
 {
-  "name": "CS Sign",
-  "identifier": "io.github.crazyquark.cssign.source",
+  "name": "Plain Sign",
+  "identifier": "io.github.crazyquark.plainsign.source",
   "subtitle": "Sign PDFs with your handwritten signature.",
-  "description": "CS Sign: a simple, private PDF signing app. No accounts, no subscriptions; everything stays on your device.",
+  "description": "Plain Sign: a simple, private PDF signing app. No accounts, no subscriptions; everything stays on your device.",
   "iconURL": "https://raw.githubusercontent.com/crazyquark/cs-sign-app/main/Resources/AppIcon.png",
   "website": "https://github.com/crazyquark/cs-sign-app",
   "tintColor": "#2F6BFF",
   "apps": [
     {
-      "name": "CS Sign",
-      "bundleIdentifier": "io.github.crazyquark.cssign",
+      "name": "Plain Sign",
+      "bundleIdentifier": "io.github.crazyquark.plainsign",
       "developerName": "crazyquark",
       "subtitle": "Sign PDFs with your handwritten signature.",
       "localizedDescription": "Sign PDF documents with a hand-drawn signature, right on your iPhone or iPad.\n\n• Import PDFs from Files, iCloud Drive or any app's share sheet, or scan paper documents with the camera\n• Draw your signature with a finger or Apple Pencil, or import a photo or scan of it (the paper background is removed automatically)\n• Place signatures, text, dates and checkmarks; drag to move, pinch to resize\n• Save a signed copy with everything merged into the page, and share it\n• Sync signatures between your devices through an iCloud Drive folder\n\nNo accounts, no subscriptions, no tracking. Your documents never leave your device.",
@@ -23,17 +23,7 @@
           "NSCameraUsageDescription": "Scan paper documents to sign them."
         }
       },
-      "versions": [
-        {
-          "version": "1.0.0",
-          "buildVersion": "1",
-          "date": "2026-11-17T14:49:19Z",
-          "localizedDescription": "First release: sign PDFs with drawn or imported signatures, scan documents, and sync signatures through iCloud Drive.",
-          "downloadURL": "https://github.com/crazyquark/cs-sign-app/releases/download/v1.0.0/CSSign.ipa",
-          "size": 1131583,
-          "minOSVersion": "17.0"
-        }
-      ]
+      "versions": []
     }
   ],
   "news": []

@@ -84,7 +84,7 @@ struct SyncSettingsView: View {
                     }
                 } footer: {
                     Text("""
-                    Pick a folder in iCloud Drive, for example “CS Sign”, and pick the same \
+                    Pick a folder in iCloud Drive, for example “Plain Sign”, and pick the same \
                     folder on your other devices. Signatures are saved there as PNG files, so \
                     every device using that folder sees them. Your current signatures are \
                     copied in when you choose a folder, and a copy stays on this device if you \

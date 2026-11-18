@@ -1,4 +1,4 @@
 version: 1
-bundleID: io.github.crazyquark.cssign
+bundleID: io.github.crazyquark.plainsign
 infoPath: Info.plist
 iconPath: Resources/AppIcon.png

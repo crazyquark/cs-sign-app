@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct CSSignApp: App {
+struct PlainSignApp: App {
     @State private var documents = DocumentStore()
     @State private var signatures = SignatureStore()
     @Environment(\.scenePhase) private var scenePhase
