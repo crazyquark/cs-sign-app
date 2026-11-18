@@ -9,35 +9,8 @@ cd "$(dirname "$0")/.."
 mkdir -p .xcode
 
 # Info.plist: xtool's file plus the keys xtool adds itself, for Xcode.
-read -r PS_VERSION PS_BUILD < <(python3 -I - Info.plist .xcode/Info.plist "${1:-}" <<'PY'
-import plistlib, sys
-src, dst, suffix = sys.argv[1:4]
-with open(src, "rb") as f:
-    info = plistlib.load(f)
-build = info["CFBundleVersion"] + (f".{suffix}" if suffix else "")
-info.update({
-    "CFBundleVersion": build,
-    "CFBundleExecutable": "$(EXECUTABLE_NAME)",
-    "CFBundleIdentifier": "$(PRODUCT_BUNDLE_IDENTIFIER)",
-    "CFBundleName": "$(PRODUCT_NAME)",
-    "CFBundlePackageType": "$(PRODUCT_BUNDLE_PACKAGE_TYPE)",
-    "CFBundleInfoDictionaryVersion": "6.0",
-    "CFBundleDevelopmentRegion": "en",
-    "LSRequiresIPhoneOS": True,
-    "UILaunchScreen": {},
-    "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
-    "UISupportedInterfaceOrientations~ipad": [
-        "UIInterfaceOrientationPortrait",
-        "UIInterfaceOrientationPortraitUpsideDown",
-        "UIInterfaceOrientationLandscapeLeft",
-        "UIInterfaceOrientationLandscapeRight",
-    ],
-})
-with open(dst, "wb") as f:
-    plistlib.dump(info, f)
-print(info["CFBundleShortVersionString"], build)
-PY
-)
+# (Separate .py file: macOS's bash 3.2 mangles a heredoc inside "< <(...)".)
+read -r PS_VERSION PS_BUILD < <(python3 -I scripts/xcode_info.py Info.plist .xcode/Info.plist "${1:-}")
 export PS_VERSION PS_BUILD
 
 # App icon asset catalog, from the same PNG xtool uses.
